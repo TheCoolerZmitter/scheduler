@@ -1,29 +1,32 @@
 require 'csv'
 
-# Read from input file
-roomList = CSV.parse(File.read("rooms_list.csv"), headers: true)
+# Get room data from file and store in a table
+def createRoomList()
+    roomList = CSV.parse(File.read("rooms_list.csv"), headers: true)
+    firstPassthrough(roomList)
+    quicksort(roomList, 0, roomList.length()-1)
+    return roomList
+end
 
 # Convert roomList capacity from strings to ints
-def FirstPassthrough(rooms)
+def firstPassthrough(rooms)
     for i in 0..rooms.length()-1 do
         rooms[i][2] = rooms[i][2].to_i
     end
 end
 
-FirstPassthrough(roomList)
-
 # Sort roomList by capacity using quicksort
-def Quicksort(rooms, first, last)
+def quicksort(rooms, first, last)
     if(first < last)
-        index = Partition(rooms, first, last)
-        Quicksort(rooms, first, index-1)
-        Quicksort(rooms, index+1, last)
+        index = partition(rooms, first, last)
+        quicksort(rooms, first, index-1)
+        quicksort(rooms, index+1, last)
     end
 
     rooms
 end
 
-def Partition(rooms, first, last)
+def partition(rooms, first, last)
     pivotIndex = first
     pivotRow = rooms[last]
     pivotValue = rooms[last][2]
@@ -43,5 +46,3 @@ def Partition(rooms, first, last)
 
     return pivotIndex
 end
-
-Quicksort(roomList, 0, roomList.length()-1)
