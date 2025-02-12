@@ -4,14 +4,12 @@ require 'csv'
 # Get reservation data from file and store in a hashtable
 def createReservedRooms(roomList)
     reservedRooms = CSV.parse(File.read("reserved_rooms.csv"), headers: true)
-    reservedRoomsList = organizeReservations(reservedRooms, roomList)
-    reservations = Struct.new(:table, :hash)
-    return reservations.new(reservedRooms, reservedRoomsList)
+    return organizeReservations(reservedRooms, roomList)
 end
 
 # Organize reservations in hash table by date
 def organizeReservations(reservedRooms, roomList)
-    reservationNode = Struct.new(:row, :index, :next)
+    reservationNode = Struct.new(:index, :reservation, :next)
 
     reservationsByDate = Array.new(12){Array.new(31)}
 
@@ -42,9 +40,9 @@ def organizeReservations(reservedRooms, roomList)
         end
 
         if reservationsByDate[month][day]
-            reservationsByDate[month][day] = reservationNode.new(index, i, reservationsByDate[month][day])
+            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], reservationsByDate[month][day])
         else
-            reservationsByDate[month][day] = reservationNode.new(index, i, nil)
+            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], nil)
         end
     end
 

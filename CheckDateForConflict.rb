@@ -9,11 +9,11 @@ def checkDateForConflict(reservations, rooms, date, roomsIndex, time, duration)
     end
     durationHour = duration[0,2].to_i
 
-    dailySchedule = reservations.hash[month][day]
+    dailySchedule = reservations[month][day]
     while dailySchedule
-        if rooms[dailySchedule.row][0] == rooms[roomsIndex][0] && rooms[dailySchedule.row][1] == rooms[roomsIndex][1]
-            reservationStart = reservations.table[dailySchedule.index][3]
-            reservationDuration = reservations.table[dailySchedule.index][4]
+        if rooms[dailySchedule.index][0] == rooms[roomsIndex][0] && rooms[dailySchedule.index][1] == rooms[roomsIndex][1]
+            reservationStart = dailySchedule.reservation[3]
+            reservationDuration = dailySchedule.reservation[4]
 
             reservationStartHour = reservationStart[0,2].to_i
             if reservationStart[6,2] == "PM"
