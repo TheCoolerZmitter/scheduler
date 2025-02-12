@@ -6,7 +6,7 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
     schedulingPlanNode = Struct.new(:date, :time, :room, :purpose)
 
     numMeals = newEvent.duration.to_i / 6
-    capacityNeeded = newEvent.attendees.to_i
+    capacityNeeded = newEvent.attendees.to_i * 6 / 10
     
     building = roomList[desiredRoomIndex][0]
     keepSearching = true
@@ -30,7 +30,7 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
         end
         while (currentTotalCapacity < capacityNeeded || numRooms < 2) && currentRoom
             if roomList[currentRoom.index][6] == "Yes"
-                if checkDateForConflict(reservedRooms, roomList, mealTime.date, mealTime.time, "01:00", desiredRoomIndex)
+                if checkDateForConflict(reservedRooms, roomList, mealTime.date, mealTime.time, "01:00", currentRoom.index)
                     mealRoom = schedulingPlanNode.new(mealTime.date, mealTime.time, roomList[currentRoom.index], "Meal")
                     currentTotalCapacity += mealRoom.room[2]
                     numRooms += 1
