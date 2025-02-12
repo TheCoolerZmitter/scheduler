@@ -32,7 +32,6 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
             if roomList[currentRoom.index][6] == "Yes"
                 if checkDateForConflict(reservedRooms, roomList, mealTime.date, mealTime.time, "01:00", desiredRoomIndex)
                     mealRoom = schedulingPlanNode.new(mealTime.date, mealTime.time, roomList[currentRoom.index], "Meal")
-                    p mealRoom
                     currentTotalCapacity += mealRoom.room[2]
                     numRooms += 1
                 end
@@ -44,6 +43,6 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
             return false;
         end
     end
-    
+
     return true;
 end
