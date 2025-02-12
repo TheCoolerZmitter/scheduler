@@ -5,14 +5,14 @@ def binarySearch(rooms, attendees)
     right = rooms.length()-1
 
     while rooms[index][2] != attendees
-        if right - left == 1
+        if left == right
             return right
         end
         
         if rooms[index][2] < attendees
             left = index + 1
         else
-            right = index - 1
+            right = index
         end
         index = (left + right) / 2
     end
