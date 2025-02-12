@@ -3,42 +3,11 @@ require 'csv'
 # Get room data from file and store in a table
 def createRoomList()
     roomList = CSV.parse(File.read("rooms_list.csv"), headers: true)
-    buildings = firstPassthrough(roomList)
-    quicksort(roomList, 0, roomList.length()-1)
-    rooms = Struct.new(:byCapacity, :byBuilding)
-    organizedRooms = rooms.new(roomList, buildings)
-    return organizedRooms
-end
-
-# Create a nested linked list of buildings and rooms
-# and convert capacity from a string to an int
-def firstPassthrough(rooms)
-    buildingNode = Struct.new(:building, :contents, :next)
-    roomNode = Struct.new(:index, :roomNum, :next)
-
-    buildings = buildingNode.new(rooms[0][0], roomNode.new(0, rooms[0][1], nil), nil)
-    rooms[0][2] = rooms[0][2].to_i
-
-    for i in 1..rooms.length()-1 do
-        currentBuilding = buildings
-        keepSearching = 1
-        while keepSearching == 1
-            if currentBuilding.building == rooms[i][0]
-                currentBuilding.contents = roomNode.new(i, rooms[i][1], currentBuilding.contents)
-                keepSearching = 0
-            else
-                currentBuilding = currentBuilding.next
-                if !currentBuilding
-                    buildings = buildingNode.new(rooms[i][0], roomNode.new(0, rooms[i][1], nil), buildings)
-                    keepSearching = 0
-                end
-            end
-        end
-
-        rooms[i][2] = rooms[i][2].to_i
+    for i in 0..roomList.length()-1 do
+        roomList[i][2] = roomList[i][2].to_i
     end
-
-    return buildings
+    quicksort(roomList, 0, roomList.length()-1)
+    return roomList
 end
 
 # Sort roomList by capacity using quicksort
