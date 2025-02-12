@@ -1,4 +1,4 @@
-# Get event constraints from user
+# Gets event constraints from user
 def getUserInput()
     event = Struct.new(:date, :time, :duration, :attendees)
     newEvent = event.new()

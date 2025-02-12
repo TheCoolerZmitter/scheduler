@@ -10,8 +10,8 @@ def createRoomList()
     return organizedRooms
 end
 
-# Creates a nested linked list of buildings and rooms
-# and converts capacity from a string to an int
+# Create a nested linked list of buildings and rooms
+# and convert capacity from a string to an int
 def firstPassthrough(rooms)
     buildingNode = Struct.new(:building, :contents, :next)
     roomNode = Struct.new(:index, :roomNum, :next)
