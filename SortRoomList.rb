@@ -2,11 +2,11 @@ require 'csv'
 
 # Get room data from file and store in a table
 def createRoomList()
-    rooms = CSV.parse(File.read("rooms_list.csv"), headers: true)
-    buildings = firstPassthrough(rooms)
-    quicksort(rooms, 0, rooms.length()-1)
+    roomList = CSV.parse(File.read("rooms_list.csv"), headers: true)
+    buildings = firstPassthrough(roomList)
+    quicksort(roomList, 0, roomList.length()-1)
     rooms = Struct.new(:byCapacity, :byBuilding)
-    organizedRooms = rooms.new(rooms, buildings)
+    organizedRooms = rooms.new(roomList, buildings)
     return organizedRooms
 end
 
