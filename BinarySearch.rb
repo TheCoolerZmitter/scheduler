@@ -17,5 +17,8 @@ def binarySearch(rooms, attendees)
         index = (left + right) / 2
     end
 
+    while rooms[index][2] == rooms[index - 1][2]
+        index -= 1
+    end
     return index
 end
