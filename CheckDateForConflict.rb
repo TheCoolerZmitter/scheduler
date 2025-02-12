@@ -1,5 +1,8 @@
 # Check if the desired room is available during the desired time
-def checkDateForConflict(reservations, rooms, date, roomsIndex, time, duration)
+def checkDateForConflict(reservations, rooms, newEvent, roomsIndex)
+    date = newEvent.date
+    time = newEvent.time
+    duration = newEvent.duration
     month = date[5,2].to_i - 1
     day = date[8,2].to_i - 1
 
