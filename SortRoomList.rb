@@ -16,22 +16,22 @@ def firstPassthrough(rooms)
 end
 
 # Sort roomList by capacity using quicksort
-def quicksort(rooms, first, last)
-    if(first < last)
-        index = partition(rooms, first, last)
-        quicksort(rooms, first, index-1)
-        quicksort(rooms, index+1, last)
+def quicksort(rooms, left, right)
+    if(left < right)
+        index = partition(rooms, left, right)
+        quicksort(rooms, left, index-1)
+        quicksort(rooms, index+1, right)
     end
 
     rooms
 end
 
-def partition(rooms, first, last)
-    pivotIndex = first
-    pivotRow = rooms[last]
-    pivotValue = rooms[last][2]
+def partition(rooms, left, right)
+    pivotIndex = left
+    pivotRow = rooms[right]
+    pivotValue = rooms[right][2]
     
-    for i in first..last-1 do
+    for i in left..right-1 do
         if rooms[i][2] <= pivotValue
             temp = rooms[i]
             rooms[i] = rooms[pivotIndex]
@@ -42,7 +42,7 @@ def partition(rooms, first, last)
 
     temp = rooms[pivotIndex]
     rooms[pivotIndex] = pivotRow
-    rooms[last] = temp
+    rooms[right] = temp
 
     return pivotIndex
 end
