@@ -19,6 +19,9 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, pl
     end
 
     for i in 1..numMeals do
+        p "break"
+        p capacityNeeded
+
         currentTotalCapacity = 0
         numRooms = 0
         currentRoom = currentBuilding.contents
@@ -28,7 +31,7 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, pl
             mealTime = endOfEvent(newEvent.date, newEvent.time, (6 * i - 1).to_s + ":00")
         end
         while (currentTotalCapacity < capacityNeeded || numRooms < 2) && currentRoom
-            if roomList[currentRoom.index][6] == "Yes" && roomList[currentRoom.index][2].to_i > 0
+            if roomList[currentRoom.index][6] == "Yes" && roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0
                 if checkDateForConflict(reservedRooms, roomList, mealTime.date, mealTime.time, "01:00", currentRoom.index)
                     mealRoom = createReservation(mealTime.date, mealTime.time, "01:00", roomList[currentRoom.index], "Meal room")
                     addReservationToPlan(mealRoom, plan)
