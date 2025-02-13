@@ -6,7 +6,11 @@ def getUserInput()
     puts "Enter date of event (yyyy-mm-dd): "
     newEvent.date = gets
     puts "Enter start time of event (hh:mm AM/PM): "
-    newEvent.time = gets
+    time = gets
+    if time[0,2] == "12"
+        time = "00" + time[2, 6]
+    end
+    newEvent.time = time
     puts "Enter duration of event (hh:mm): "
     newEvent.duration = gets
     puts "Enter number of attendees: "
