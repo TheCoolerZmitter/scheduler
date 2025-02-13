@@ -2,47 +2,40 @@ require 'csv'
 
 # prints output to console
 def print(schedule)
-
     finalSchedule = Array.new(schedule.count + 1){Array.new(13)}
+    
+    finalSchedule[0] = [
+        "Date", "Time", "Duration", "Building", "Room", "Capacity", "Computer Available",
+        "Seating Available", "Seating Type", "Food Allowed", "Priority", "Room Type", "Purpose"
+    ]
 
     currentReservation = schedule
-    
-    finalSchedule[0][0] = "Date"
-    finalSchedule[0][1] = "Time"
-    finalSchedule[0][2] = "Duration"
-    finalSchedule[0][3] = "Building"
-    finalSchedule[0][4] = "Room"
-    finalSchedule[0][5] = "Capacity"
-    finalSchedule[0][6] = "Computer Available"
-    finalSchedule[0][7] = "Seating Available"
-    finalSchedule[0][8] = "Seating Type"
-    finalSchedule[0][9] = "Food Allowed"
-    finalSchedule[0][10] = "Priority"
-    finalSchedule[0][11] = "Room Type"
-    finalSchedule[0][12] = "Purpose"
-
-    for i in 1..schedule.count do
-        finalSchedule[i - schedule.count + 1][0] = currentReservation.reservation.date[0,10]
+    i = schedule.count
+    while currentReservation
+        finalSchedule[i][0] = currentReservation.reservation.date[0,10]
         if currentReservation.reservation.time[0,2] == "00"
-            finalSchedule[i - schedule.count + 1][1] = "12" + currentReservation.reservation.time[2,6]
+            finalSchedule[i][1] = "12" + currentReservation.reservation.time[2,6]
         else
-            finalSchedule[i - schedule.count + 1][1] = currentReservation.reservation.time[0,8]
+            finalSchedule[i][1] = currentReservation.reservation.time[0,8]
         end
-        finalSchedule[i - schedule.count + 1][2] = currentReservation.reservation.duration
-        finalSchedule[i - schedule.count + 1][3] = currentReservation.reservation.room[0]
-        finalSchedule[i - schedule.count + 1][4] = currentReservation.reservation.room[1]
-        finalSchedule[i - schedule.count + 1][5] = currentReservation.reservation.room[2]
-        finalSchedule[i - schedule.count + 1][6] = currentReservation.reservation.room[3]
-        finalSchedule[i - schedule.count + 1][7] = currentReservation.reservation.room[4]
-        finalSchedule[i - schedule.count + 1][8] = currentReservation.reservation.room[5]
-        finalSchedule[i - schedule.count + 1][9] = currentReservation.reservation.room[6]
-        finalSchedule[i - schedule.count + 1][10] = currentReservation.reservation.room[7]
-        finalSchedule[i - schedule.count + 1][11] = currentReservation.reservation.room[8]
-        finalSchedule[i - schedule.count + 1][12] = currentReservation.reservation.purpose
-        currentReservation = currentReservation.next
+        finalSchedule[i][2] = currentReservation.reservation.duration
+        finalSchedule[i][3] = currentReservation.reservation.room[0]
+        finalSchedule[i][4] = currentReservation.reservation.room[1]
+        finalSchedule[i][5] = currentReservation.reservation.room[2]
+        finalSchedule[i][6] = currentReservation.reservation.room[3]
+        finalSchedule[i][7] = currentReservation.reservation.room[4]
+        finalSchedule[i][8] = currentReservation.reservation.room[5]
+        finalSchedule[i][9] = currentReservation.reservation.room[6]
+        finalSchedule[i][10] = currentReservation.reservation.room[7]
+        finalSchedule[i][11] = currentReservation.reservation.room[8]
+        finalSchedule[i][12] = currentReservation.reservation.purpose
 
-        puts finalSchedule[i]
-        puts "\n"
+        currentReservation = currentReservation.next
+        i -= 1
+    end
+
+    for i in 0..schedule.count do
+        puts finalSchedule[i].join(", ")
     end
 
     if fileAsk()
