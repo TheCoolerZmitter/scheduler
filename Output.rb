@@ -23,7 +23,11 @@ def print(schedule)
 
     for i in 1..schedule.count do
         finalSchedule[i][0] = currentReservation.reservation.date[0,10]
-        finalSchedule[i][1] = currentReservation.reservation.time[0,8]
+        if currentReservation.reservation.time[0,2] == 00
+            finalSchedule[i][1] = "12" + currentReservation.reservation.time[2,6]
+        else
+            finalSchedule[i][1] = currentReservation.reservation.time[0,8]
+        end
         finalSchedule[i][2] = currentReservation.reservation.duration
         finalSchedule[i][3] = currentReservation.reservation.room[0]
         finalSchedule[i][4] = currentReservation.reservation.room[1]
