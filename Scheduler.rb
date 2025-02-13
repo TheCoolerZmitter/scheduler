@@ -30,6 +30,7 @@ end
 
 # Check for room's validity
 keepSearching = true
+success = true
 while keepSearching
     # Check availability for opening and closing session
     if checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, "01:00", desiredRoomIndex) && checkDateForConflict(reservedRooms, roomList, closingSession.date, closingSession.time, "03:00", desiredRoomIndex)
@@ -57,8 +58,13 @@ while keepSearching
         desiredRoomIndex += 1
         if desiredRoomIndex >= roomList.length()
             keepSearching = false
+            success = false
         end
     end
 end
 
-print(finalPlan)
+if success
+    print(finalPlan)
+else
+    printFail()
+end

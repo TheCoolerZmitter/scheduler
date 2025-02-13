@@ -70,3 +70,7 @@ def printToFile(finalSchedule)
 
     puts "File created successfully!"
 end
+
+def printFail()
+    puts "No possible scheduling plan available."
+end
