@@ -13,7 +13,6 @@ end
 def addReservationToPlan(reservation, plan)
     plan.next = plan
     plan.reservation = reservation
-    plan.next.prev = plan
 end
 
 def resetPlan(plan)
