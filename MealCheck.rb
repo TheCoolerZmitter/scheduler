@@ -19,9 +19,6 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, pl
     end
 
     for i in 1..numMeals do
-        p "break"
-        p capacityNeeded
-
         currentTotalCapacity = 0
         numRooms = 0
         currentRoom = currentBuilding.contents
