@@ -3,22 +3,33 @@ def endOfEvent(date, time, duration)
     range = Struct.new(:date, :time, :numDays)
 
     startHour = time[0,2].to_i
+    startMinutes = time[3,2].to_i
     if time[6,2] == "PM"
         startHour += 12
     end
     durationHours = duration[0,2].to_i
+    durationMinutes = duration[3,2].to_i
 
     lastHour = startHour + durationHours
+    lastMinute = startMinutes + durationMinutes
+    lastHour += lastMinute / 60
+    lastMinute = lastMinute % 60
     numDays = lastHour/24
+
     if lastHour % 12 < 10
-        leadingZero = "0"
+        leadingZeroHour = "0"
     else
-        leadingZero = ""
+        leadingZeroHour = ""
+    end
+    if lastMinute < 10
+        leadingZeroMinute = "0"
+    else
+        leadingZeroMinute = ""
     end
     if lastHour % 24 < 12
-        timeString = leadingZero + (lastHour % 24).to_s + ":00 AM"
+        timeString = leadingZeroHour + (lastHour % 24).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " AM"
     else
-        timeString = leadingZero + (lastHour % 24 - 12).to_s + ":00 PM"
+        timeString = leadingZeroHour + (lastHour % 24 - 12).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " AM"
     end
 
     if numDays == 0
