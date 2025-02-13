@@ -6,7 +6,7 @@ def print(schedule)
     
     finalSchedule[0] = [
         "Date", "Time", "Duration", "Building", "Room", "Capacity", "Computer Available",
-        "Seating Available", "Seating Type", "Food Allowed", "Priority", "Room Type", "Purpose"
+        "Seating Available", "Seating Type", "Food Allowed", "Room Type", "Priority", "Purpose"
     ]
 
     currentReservation = schedule
@@ -26,8 +26,8 @@ def print(schedule)
         finalSchedule[i][7] = currentReservation.reservation.room[4]
         finalSchedule[i][8] = currentReservation.reservation.room[5]
         finalSchedule[i][9] = currentReservation.reservation.room[6]
-        finalSchedule[i][10] = currentReservation.reservation.room[7]
-        finalSchedule[i][11] = currentReservation.reservation.room[8]
+        finalSchedule[i][10] = currentReservation.reservation.room[8]
+        finalSchedule[i][11] = currentReservation.reservation.room[7]
         finalSchedule[i][12] = currentReservation.reservation.purpose
 
         currentReservation = currentReservation.next
