@@ -1,10 +1,9 @@
 require_relative 'CheckDateForConflict'
 require_relative 'EndOfEvent'
+require_relative 'SchedulingPlan'
 
 # Checks for rooms in the same building that can be used for individual/group work
-def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
-    schedulingPlanNode = Struct.new(:date, :time, :room, :purpose)
-
+def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
     capacityNeeded = newEvent.attendees.to_i * 6
     computersNeeded = newEvent.attendees.to_i / 10
 
@@ -51,14 +50,14 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
         end
 
         while (currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded) && currentRoom
-            if currentRoom.index != desiredRoomIndex && checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
-                individualRoom = schedulingPlanNode.new(individualTime.date, individualTime.time, roomList[currentRoom.index], "Group work")
+            if currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][2].to_i > 0 && checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
+                individualRoom = createReservation(individualTime.date, individualTime.time, individualDuration, roomList[currentRoom.index], "Group work")
+                addReservationToPlan(individualRoom, plan)
+
                 currentTotalCapacity += individualRoom.room[2]
                 if individualRoom.room[3] == "Yes"
                     totalComputers += individualRoom.room[2]
                 end
-
-                p individualRoom
             end
             currentRoom = currentRoom.next
         end

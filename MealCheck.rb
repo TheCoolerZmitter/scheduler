@@ -1,10 +1,9 @@
 require_relative 'CheckDateForConflict'
 require_relative 'EndOfEvent'
+require_relative 'SchedulingPlan'
 
 # Checks for rooms in the same building that can be used for meals
-def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
-    schedulingPlanNode = Struct.new(:date, :time, :room, :purpose)
-
+def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
     numMeals = newEvent.duration.to_i / 6
     capacityNeeded = newEvent.attendees.to_i * 6 / 10
     
@@ -29,9 +28,11 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
             mealTime = endOfEvent(newEvent.date, newEvent.time, (6 * i - 1).to_s + ":00")
         end
         while (currentTotalCapacity < capacityNeeded || numRooms < 2) && currentRoom
-            if roomList[currentRoom.index][6] == "Yes"
+            if roomList[currentRoom.index][6] == "Yes" && roomList[currentRoom.index][2].to_i > 0
                 if checkDateForConflict(reservedRooms, roomList, mealTime.date, mealTime.time, "01:00", currentRoom.index)
-                    mealRoom = schedulingPlanNode.new(mealTime.date, mealTime.time, roomList[currentRoom.index], "Meal")
+                    mealRoom = createReservation(mealTime.date, mealTime.time, "01:00", roomList[currentRoom.index], "Meal room")
+                    addReservationToPlan(mealRoom, plan)
+
                     currentTotalCapacity += mealRoom.room[2]
                     numRooms += 1
                 end

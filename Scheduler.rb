@@ -7,6 +7,7 @@ require_relative 'OrganizeByBuilding'
 require_relative 'HackTCNJConstraints'
 require_relative 'Output'
 require_relative 'EndOfEvent'
+require_relative 'SchedulingPlan'
 
 # Get room and reservation data from files
 roomList = createRoomList()
@@ -25,12 +26,18 @@ closingSession = endOfEvent(newEvent.date, newEvent.time, newEvent.duration.to_i
 # Check for room's validity
 keepSearching = true
 #while keepSearching
-    # Check opening and closing session
+    # Check availability for opening and closing session
     if checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, "01:00", desiredRoomIndex) && checkDateForConflict(reservedRooms, roomList, closingSession.date, closingSession.time, "03:00", desiredRoomIndex)
-        # Check rest of HackTCNJ constraints
-        checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings)
+        # Create scheduling plan and add reservations for opening and closing sessions
+        openingReservation = createReservation(newEvent.date, newEvent.time, "01:00", roomList[desiredRoomIndex], "Opening session")
+        closingReservation = createReservation(closingSession.date, closingSession.time, "03:00", roomList[desiredRoomIndex], "Closing session")
+        finalPlan = createNewPlan(closingReservation)
+        addReservationToPlan(openingReservation, finalPlan)
+        
+        # Check the rest of HackTCNJ constraints
+        checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, finalPlan)
 
-    # If there are scheduling problems, try the next room (in order of capacity)
+    # If there are scheduling problems, try the next room in roomList (in order of capacity)
     else
         desiredRoomIndex += 1
         if desiredRoomIndex >= roomList.length()
