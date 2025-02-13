@@ -1,13 +1,13 @@
 # Creates scheduling plan
 def createReservation(date, time, duration, room, purpose)
     reservation = Struct.new(:date, :time, :duration, :room, :purpose)
-    return = reservation.new(date, time, duration, room, purpose)
+    return reservation.new(date, time, duration, room, purpose)
 end
 
 def createNewPlan(reservation)
     scheduleNode = Struct.new(:reservation, :next)
 
-    return = scheduleNode.new(reservation, nil)
+    return scheduleNode.new(reservation, nil)
 end
 
 def addReservationToPlan(reservation, plan)
