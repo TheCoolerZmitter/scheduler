@@ -43,6 +43,7 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
     for i in 0..numDays do
         currentTotalCapacity = 0
         totalComputers = 0
+        numRooms = 0
         currentRoom = currentBuilding.contents
 
         if i == 0
@@ -60,13 +61,14 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
             individualDuration = "24:00"
         end
 
-        while (currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded) && currentRoom
+        while (currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded || numRooms < 2) && currentRoom
             if currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0 && roomList[currentRoom.index][2].to_i <= 1000
                 if checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
                     individualRoom = createReservation(individualTime.date, individualTime.time, individualDuration, roomList[currentRoom.index], "Group work")
                     plan = addReservationToPlan(individualRoom, plan)
 
                     currentTotalCapacity += individualRoom.room[2]
+                    numRooms += 1
                     if individualRoom.room[3] == "Yes"
                         totalComputers += individualRoom.room[2]
                     end
@@ -75,7 +77,7 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
             currentRoom = currentRoom.next
         end
 
-        if currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded
+        if currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded || numRooms < 2
             return planBool.new(false, nil);
         end
     end
