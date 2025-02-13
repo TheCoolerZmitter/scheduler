@@ -5,18 +5,14 @@ def createReservation(date, time, duration, room, purpose)
 end
 
 def createNewPlan(reservation)
-    scheduleNode = Struct.new(:reservation, :next)
-
-    return scheduleNode.new(reservation, nil)
+    scheduleNode = Struct.new(:reservation, :next, :count)
+    return scheduleNode.new(reservation, nil, 1)
 end
 
 def addReservationToPlan(reservation, plan)
-    scheduleNode = Struct.new(:reservation, :next)
-    current = plan
-    while current.next
-        current = current.next
-    end
-    current.next = scheduleNode.new(reservation, nil)
+    scheduleNode = Struct.new(:reservation, :next, :count)
+    count = plan.count + 1
+    return scheduleNode.new(reservation, plan, count)
 end
 
 def resetPlan(plan)
@@ -25,6 +21,7 @@ def resetPlan(plan)
         nextReservation = currentReservation.next
         currentReservation.reservation = nil
         currentReservation.next = nil
+        currentReservation.count = nil
         currentReservation = nextReservation
     end
     plan = nil

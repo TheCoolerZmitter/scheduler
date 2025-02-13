@@ -36,16 +36,19 @@ while keepSearching
         openingReservation = createReservation(newEvent.date, newEvent.time, "01:00", roomList[desiredRoomIndex], "Opening session")
         closingReservation = createReservation(closingSession.date, closingSession.time, "03:00", roomList[desiredRoomIndex], "Closing session")
         finalPlan = createNewPlan(openingReservation)
-        addReservationToPlan(closingReservation, finalPlan)
+        finalPlan = addReservationToPlan(closingReservation, finalPlan)
         
         # Check the rest of HackTCNJ constraints
-        keepSearching = !checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, finalPlan)
+        finalPlanBool = checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, finalPlan)
+        keepSearching = !finalPlanBool.pass
         if keepSearching
             #resetPlan(finalPlan)
             desiredRoomIndex += 1
             if desiredRoomIndex >= roomList.length()
                 keepSearching = false
             end
+        else
+            finalPlan = finalPlanBool.newPlan
         end
 
     # If there are scheduling problems, try the next room in roomList (in order of capacity)  
