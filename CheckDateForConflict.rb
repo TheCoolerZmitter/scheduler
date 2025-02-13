@@ -1,5 +1,6 @@
 # Check if the desired room is available during the desired time
 def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
+    year = date[0,4]
     month = date[5,2].to_i - 1
     day = date[8,2].to_i - 1
 
@@ -11,7 +12,7 @@ def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
 
     dailySchedule = reservations[month][day]
     while dailySchedule
-        if rooms[dailySchedule.index][0] == rooms[roomsIndex][0] && rooms[dailySchedule.index][1] == rooms[roomsIndex][1]
+        if rooms[dailySchedule.index][0] == rooms[roomsIndex][0] && rooms[dailySchedule.index][1] == rooms[roomsIndex][1] && dailySchedule.year == year 
             reservationStart = dailySchedule.reservation[3]
             reservationDuration = dailySchedule.reservation[4]
 

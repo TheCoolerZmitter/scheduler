@@ -9,13 +9,14 @@ end
 
 # Organize reservations in hash table by date
 def organizeReservations(reservedRooms, roomList)
-    reservationNode = Struct.new(:index, :reservation, :next)
+    reservationNode = Struct.new(:index, :reservation, :year, :next)
 
     reservationsByDate = Array.new(12){Array.new(31)}
 
     for i in 0..reservedRooms.length()-1 do
 
         date = reservedRooms[i][2]
+        year = date[0,4]
         month = date[5,2].to_i - 1
         day = date[8,2].to_i - 1
 
@@ -40,9 +41,9 @@ def organizeReservations(reservedRooms, roomList)
         end
 
         if reservationsByDate[month][day]
-            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], reservationsByDate[month][day])
+            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], year, reservationsByDate[month][day])
         else
-            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], nil)
+            reservationsByDate[month][day] = reservationNode.new(index, reservedRooms[i], year, nil)
         end
     end
 
