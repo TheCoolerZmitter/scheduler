@@ -42,6 +42,7 @@ def print(schedule)
         currentReservation = currentReservation.next
 
         puts finalSchedule[i]
+        puts "\n"
     end
 
     if fileAsk()
