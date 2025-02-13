@@ -27,6 +27,8 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
         end
     end
 
+    planBool = Struct.new(:pass, :newPlan)
+
     firstDayDuration = 24 - startHour
     lastDayDuration = lastHour % 24
     for i in 0..numDays do
@@ -52,7 +54,7 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
         while (currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded) && currentRoom
             if currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0 && checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
                 individualRoom = createReservation(individualTime.date, individualTime.time, individualDuration, roomList[currentRoom.index], "Group work")
-                addReservationToPlan(individualRoom, plan)
+                plan = addReservationToPlan(individualRoom, plan)
 
                 currentTotalCapacity += individualRoom.room[2]
                 if individualRoom.room[3] == "Yes"
@@ -63,11 +65,11 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
         end
 
         if currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded
-            return false;
+            return planBool.new(false, nil);
         end
     end
 
-    return true
+    return planBool.new(true, plan)
 end
 
 def convertToString(value, time)

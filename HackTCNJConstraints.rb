@@ -3,10 +3,14 @@ require_relative 'IndividualRoomsCheck'
 
 # Tests for the HackTCNJ specific constraints
 def checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
-    if individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
-        if mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
-            return true
+    individualPlanBool = individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
+    if individualPlanBool.pass
+        plan = individualPlanBool.newPlan
+        mealPlanBool = mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
+        if mealPlanBool.pass
+            return mealPlanBool
         end
     end
-    return false
+    planBool = Struct.new(:pass, :newPlan)
+    return planBool.new(false, nil)
 end
