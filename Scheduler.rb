@@ -29,7 +29,7 @@ end
 
 # Check for room's validity
 keepSearching = true
-#while keepSearching
+while keepSearching
     # Check availability for opening and closing session
     if checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, "01:00", desiredRoomIndex) && checkDateForConflict(reservedRooms, roomList, closingSession.date, closingSession.time, "03:00", desiredRoomIndex)
         # Create scheduling plan and add reservations for opening and closing sessions
@@ -55,6 +55,6 @@ keepSearching = true
             keepSearching = false
         end
     end
-#end
+end
 
 print(finalPlan)

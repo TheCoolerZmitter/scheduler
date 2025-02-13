@@ -11,15 +11,21 @@ def createNewPlan(reservation)
 end
 
 def addReservationToPlan(reservation, plan)
-    plan.next = plan
-    plan.reservation = reservation
+    scheduleNode = Struct.new(:reservation, :next)
+    current = plan
+    while current.next
+        current = current.next
+    end
+    current.next = scheduleNode.new(reservation, nil)
 end
 
 def resetPlan(plan)
     currentReservation = plan
     while currentReservation
         nextReservation = currentReservation.next
-        currentReservation.delete()
+        currentReservation.reservation = nil
+        currentReservation.next = nil
         currentReservation = nextReservation
     end
+    plan = nil
 end
