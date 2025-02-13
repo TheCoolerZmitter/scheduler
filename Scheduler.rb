@@ -21,10 +21,11 @@ newEvent = getUserInput()
 desiredRoomIndex = binarySearch(roomList, newEvent.attendees.to_i)
 
 # Find date and time of closing session
-if newEvent.duration[0,2].to_i - 3 < 10
-    closingSession = endOfEvent(newEvent.date, newEvent.time, "0" + (newEvent.duration[0,2].to_i - 3).to_s + ":00")
+durationHours = newEvent.duration[0,2].to_i - 3
+if durationHours < 10
+    closingSession = endOfEvent(newEvent.date, newEvent.time, "0" + durationHours.to_s + newEvent.duration[2,3])
 else
-    closingSession = endOfEvent(newEvent.date, newEvent.time, (newEvent.duration[0,2].to_i - 3).to_s + ":00")
+    closingSession = endOfEvent(newEvent.date, newEvent.time, durationHours.to_s + newEvent.duration[2,3])
 end
 
 # Check for room's validity

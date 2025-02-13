@@ -5,10 +5,15 @@ def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
     day = date[8,2].to_i - 1
 
     startHour = time[0,2].to_i
+    startMinute = time[3,2].to_i
     if time[6,2] == "PM"
         startHour += 12
     end
     durationHour = duration[0,2].to_i
+    durationMinute = duration[3,2].to_i
+
+    endHour = startHour + durationHour + (startMinute + durationMinute) / 60
+    endMinute = (startMinute + durationMinute) % 60
 
     dailySchedule = reservations[month][day]
     while dailySchedule
@@ -17,17 +22,28 @@ def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
             reservationDuration = dailySchedule.reservation[4]
 
             reservationStartHour = reservationStart[0,2].to_i
+            reservationStartMinute = reservationStart[3,2].to_i
             if reservationStart[6,2] == "PM"
                 reservationStartHour += 12
             end
-            reservationEndHour = reservationDuration[0,2].to_i + reservationStartHour
+            reservationEndMinute = (reservationStart[3,2].to_i + reservationDuration[3,2].to_i)
+            reservationEndHour = reservationDuration[0,2].to_i + reservationStartHour + (reservationEndMinute / 60)
+            reservatinoEndMinute = reservationEndMinute % 60
 
-            if !((startHour > reservationEndHour) || (startHour + durationHour < reservationStartHour))
+            if !((startHour >= reservationEndHour) || (endHour <= reservationStartHour))
                 return false
+            elsif startHour == reservationEndHour
+                if startMinute <= reservationEndMinute
+                    return false
+                end
+            elsif startHour + durationHour == reservationStartHour
+                if endMinute >= reservationStartMinute
+                    return false
+                end
             end
         end
 
-        if !dailySchedule
+        if !dailySchedule.next
             return true
         else
             dailySchedule = dailySchedule.next
