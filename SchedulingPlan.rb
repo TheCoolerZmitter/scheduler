@@ -12,6 +12,7 @@ end
 def addReservationToPlan(reservation, plan)
     scheduleNode = Struct.new(:reservation, :next, :count)
     count = plan.count + 1
+
     return scheduleNode.new(reservation, plan, count)
 end
 

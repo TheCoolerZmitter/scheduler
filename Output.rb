@@ -22,23 +22,23 @@ def print(schedule)
     finalSchedule[0][12] = "Purpose"
 
     for i in 1..schedule.count do
-        finalSchedule[i][0] = currentReservation.reservation.date[0,10]
+        finalSchedule[i - schedule.count + 1][0] = currentReservation.reservation.date[0,10]
         if currentReservation.reservation.time[0,2] == "00"
-            finalSchedule[i][1] = "12" + currentReservation.reservation.time[2,6]
+            finalSchedule[i - schedule.count + 1][1] = "12" + currentReservation.reservation.time[2,6]
         else
-            finalSchedule[i][1] = currentReservation.reservation.time[0,8]
+            finalSchedule[i - schedule.count + 1][1] = currentReservation.reservation.time[0,8]
         end
-        finalSchedule[i][2] = currentReservation.reservation.duration
-        finalSchedule[i][3] = currentReservation.reservation.room[0]
-        finalSchedule[i][4] = currentReservation.reservation.room[1]
-        finalSchedule[i][5] = currentReservation.reservation.room[2]
-        finalSchedule[i][6] = currentReservation.reservation.room[3]
-        finalSchedule[i][7] = currentReservation.reservation.room[4]
-        finalSchedule[i][8] = currentReservation.reservation.room[5]
-        finalSchedule[i][9] = currentReservation.reservation.room[6]
-        finalSchedule[i][10] = currentReservation.reservation.room[7]
-        finalSchedule[i][11] = currentReservation.reservation.room[8]
-        finalSchedule[i][12] = currentReservation.reservation.purpose
+        finalSchedule[i - schedule.count + 1][2] = currentReservation.reservation.duration
+        finalSchedule[i - schedule.count + 1][3] = currentReservation.reservation.room[0]
+        finalSchedule[i - schedule.count + 1][4] = currentReservation.reservation.room[1]
+        finalSchedule[i - schedule.count + 1][5] = currentReservation.reservation.room[2]
+        finalSchedule[i - schedule.count + 1][6] = currentReservation.reservation.room[3]
+        finalSchedule[i - schedule.count + 1][7] = currentReservation.reservation.room[4]
+        finalSchedule[i - schedule.count + 1][8] = currentReservation.reservation.room[5]
+        finalSchedule[i - schedule.count + 1][9] = currentReservation.reservation.room[6]
+        finalSchedule[i - schedule.count + 1][10] = currentReservation.reservation.room[7]
+        finalSchedule[i - schedule.count + 1][11] = currentReservation.reservation.room[8]
+        finalSchedule[i - schedule.count + 1][12] = currentReservation.reservation.purpose
         currentReservation = currentReservation.next
 
         puts finalSchedule[i]
