@@ -7,16 +7,16 @@ def organizeByBuilding(rooms)
 
     for i in 1..rooms.length()-1 do
         currentBuilding = buildings
-        keepSearching = 1
-        while keepSearching == 1
+        keepSearching = true
+        while keepSearching
             if currentBuilding.building == rooms[i][0]
                 currentBuilding.contents = roomNode.new(i, rooms[i][1], currentBuilding.contents)
-                keepSearching = 0
+                keepSearching = false
             else
                 currentBuilding = currentBuilding.next
                 if !currentBuilding
                     buildings = buildingNode.new(rooms[i][0], roomNode.new(0, rooms[i][1], nil), buildings)
-                    keepSearching = 0
+                    keepSearching = false
                 end
             end
         end
