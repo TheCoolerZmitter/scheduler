@@ -2,4 +2,4 @@ To run the program, enter "ruby Scheduler.rb" and enter the desired constraints 
 
 Known issues:
 1) Events must not exceed a duration of 99:59
-2) Input must be formatted perfectly (including typing AM/PM for the start time)
+2) Input must be formatted perfectly (including typing AM/PM for the start time and a leading 0 for single digit hour values)
