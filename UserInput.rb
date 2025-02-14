@@ -41,7 +41,7 @@ def getUserConstraints()
         end
 
         # Checks validity
-        if time.to_i > 0 && time.to_i < 13 && time[3,2].to_i >= 0 && time[3,2].to_i < 60 && (time.length == 8 || time.length == 7)
+        if time.to_i > 0 && time.to_i < 13 && time[3,2].to_i >= 0 && time[3,2].to_i < 60 && (time.chomp.length == 8 || time.chomp.length == 7)
             validInput = true
             # Change 12 to 00 for later calculations
             if time[0,2] == "12"
