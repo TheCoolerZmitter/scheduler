@@ -1,5 +1,5 @@
 # Gets event constraints from user
-def getUserInput()
+def getUserConstraints()
     event = Struct.new(:date, :time, :duration, :attendees)
     newEvent = event.new()
 
@@ -17,4 +17,16 @@ def getUserInput()
     newEvent.attendees = gets
 
     return newEvent
+end
+
+def getRoomListFilePath()
+    puts "Enter the name of room list file (ie. \"rooms_list.csv\"):"
+    path = gets
+    return path.chomp
+end
+
+def getReservationListFilePath()
+    puts "Enter the name of reserved rooms file (ie. \"reserved_rooms.csv\"):"
+    path = gets
+    return path.chomp
 end

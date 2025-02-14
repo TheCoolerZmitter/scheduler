@@ -1,8 +1,8 @@
 require 'csv'
 
 # Get room data from file and store in a table
-def createRoomList()
-    roomList = CSV.parse(File.read("rooms_list.csv"), headers: true)
+def createRoomList(path)
+    roomList = CSV.parse(File.read(path), headers: true)
     for i in 0..roomList.length()-1 do
         roomList[i][2] = roomList[i][2].to_i
     end

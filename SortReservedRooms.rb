@@ -2,8 +2,8 @@ require 'csv'
 
 
 # Get reservation data from file and store in a hashtable
-def createReservedRooms(roomList)
-    reservedRooms = CSV.parse(File.read("reserved_rooms.csv"), headers: true)
+def createReservedRooms(roomList, path)
+    reservedRooms = CSV.parse(File.read(path), headers: true)
     return organizeReservations(reservedRooms, roomList)
 end
 
