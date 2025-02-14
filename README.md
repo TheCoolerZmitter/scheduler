@@ -1,7 +1,7 @@
 Instructions for running the program:
 1) Navigate to student1@csc415-01-server03.hpc.tcnj.edu/vm-csc415/scheduler
 2) Run “ruby Scheduler.rb”
-3) Enter the names of input files and constraints exactly as prompted
+3) Enter input files and constraints as prompted
 
 
 Known issues:
