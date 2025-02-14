@@ -9,13 +9,21 @@ require_relative 'Output'
 require_relative 'EndOfEvent'
 require_relative 'SchedulingPlan'
 
-# Get room and reservation data from files
-roomList = createRoomList()
+# Get first file path from user
+roomListPath = getRoomListFilePath()
+
+# Get room data from file
+roomList = createRoomList(roomListPath)
 buildings = organizeByBuilding(roomList)
-reservedRooms = createReservedRooms(buildings)
+
+# Get second file path from user
+roomReservationPath = getReservationListFilePath()
+
+# Get reservation data from file
+reservedRooms = createReservedRooms(buildings, roomReservationPath)
 
 # Get event constraints from user
-newEvent = getUserInput()
+newEvent = getUserConstraints()
 
 # Find desired room
 desiredRoomIndex = binarySearch(roomList, newEvent.attendees.to_i)

@@ -53,10 +53,10 @@ def fileAsk()
 end
 
 def printToFile(finalSchedule)
-    puts "Name file:"
+    puts "Name of file (\"output.csv\"):"
     name = gets
 
-    CSV.open(name + ".csv", "w") do |csv|
+    CSV.open(name, "w") do |csv|
         finalSchedule.each do |row|
             csv << row
         end
