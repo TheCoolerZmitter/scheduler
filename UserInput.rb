@@ -43,6 +43,15 @@ def getUserConstraints()
                 time = "00" + time[2, 6]
             end
             newEvent.time = time
+
+            if newEvent.time[5,1] != " "
+                newEvent.time = newEvent.time[0,5] + " " + newEvent.time[5,2]
+            end
+            if newEvent.time[6,2] == "am"
+                newEvent.time = newEvent.time[0,6] + "AM"
+            elsif newEvent.time[6,2] == "pm"
+                newEvent.time = newEvent.time[0,6] + "PM"
+            end
         else
             puts "Invalid time. Please enter time in AM/PM format."
         end
