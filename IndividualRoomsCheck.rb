@@ -49,6 +49,9 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
     firstDayDurationHours = 24 - startHour
     if startMinute > 0
         firstDayDurationHours -= 1
+        if firstDayDurationHours < 0
+            firstDayDurationHours = 23
+        end
     end
     lastDayDurationHours = lastHour % 24
 
