@@ -1,5 +1,9 @@
 # Check if the desired room is available during the desired time
 def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
+    if rooms[roomsIndex][1].to_i <= 0 || rooms[roomsIndex][2].to_i < 0 || rooms[roomsIndex][2].to_i > 1000
+        return false
+    end
+
     year = date[0,4]
     month = date[5,2].to_i - 1
     day = date[8,2].to_i - 1
@@ -17,40 +21,36 @@ def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
 
     dailySchedule = reservations[month][day]
     while dailySchedule
-        if roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0 && roomList[currentRoom.index][2].to_i <= 1000
-            if rooms[dailySchedule.index][0] == rooms[roomsIndex][0] && rooms[dailySchedule.index][1] == rooms[roomsIndex][1] && dailySchedule.year == year 
-                reservationStart = dailySchedule.reservation[3]
-                reservationDuration = dailySchedule.reservation[4]
+        if rooms[dailySchedule.index][0] == rooms[roomsIndex][0] && rooms[dailySchedule.index][1] == rooms[roomsIndex][1] && dailySchedule.year == year 
+            reservationStart = dailySchedule.reservation[3]
+            reservationDuration = dailySchedule.reservation[4]
 
-                reservationStartHour = reservationStart[0,2].to_i
-                reservationStartMinute = reservationStart[3,2].to_i
-                if reservationStart[6,2] == "PM"
-                    reservationStartHour += 12
-                end
-                reservationEndMinute = (reservationStart[3,2].to_i + reservationDuration[3,2].to_i)
-                reservationEndHour = reservationDuration[0,2].to_i + reservationStartHour + (reservationEndMinute / 60)
-                reservatinoEndMinute = reservationEndMinute % 60
+            reservationStartHour = reservationStart[0,2].to_i
+            reservationStartMinute = reservationStart[3,2].to_i
+            if reservationStart[6,2] == "PM"
+                reservationStartHour += 12
+            end
+            reservationEndMinute = (reservationStart[3,2].to_i + reservationDuration[3,2].to_i)
+            reservationEndHour = reservationDuration[0,2].to_i + reservationStartHour + (reservationEndMinute / 60)
+            reservatinoEndMinute = reservationEndMinute % 60
 
-                if !((startHour >= reservationEndHour) || (endHour <= reservationStartHour))
+            if !((startHour >= reservationEndHour) || (endHour <= reservationStartHour))
+                return false
+            elsif startHour == reservationEndHour
+                if startMinute <= reservationEndMinute
                     return false
-                elsif startHour == reservationEndHour
-                    if startMinute <= reservationEndMinute
-                        return false
-                    end
-                elsif startHour + durationHour == reservationStartHour
-                    if endMinute >= reservationStartMinute
-                        return false
-                    end
+                end
+            elsif startHour + durationHour == reservationStartHour
+                if endMinute >= reservationStartMinute
+                    return false
                 end
             end
+        end
 
-            if !dailySchedule.next
-                return true
-            else
-                dailySchedule = dailySchedule.next
-            end
+        if !dailySchedule.next
+            return true
         else
-            return false
+            dailySchedule = dailySchedule.next
         end
     end
 
