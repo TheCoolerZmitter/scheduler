@@ -63,7 +63,7 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
 
         while (currentTotalCapacity < capacityNeeded || totalComputers < computersNeeded || numRooms < 2) && currentRoom
             if currentTotalCapacity >= capacityNeeded && totalComputers < computersNeeded
-                if roomList[currentRoom.index][3] == "Yes" && currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0 && roomList[currentRoom.index][2].to_i <= 1000
+                if roomList[currentRoom.index][3] == "Yes" && currentRoom.index != desiredRoomIndex
                     if checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
                         individualRoom = createReservation(individualTime.date, individualTime.time, individualDuration, roomList[currentRoom.index], "Group work")
                         plan = addReservationToPlan(individualRoom, plan)
@@ -74,7 +74,7 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
                     end
                 end
             else
-                if currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][1].to_i > 0 && roomList[currentRoom.index][2].to_i > 0 && roomList[currentRoom.index][2].to_i <= 1000
+                if currentRoom.index != desiredRoomIndex && roomList[currentRoom.index][1].to_i > 0
                     if checkDateForConflict(reservedRooms, roomList, individualTime.date, individualTime.time, individualDuration, currentRoom.index)
                         individualRoom = createReservation(individualTime.date, individualTime.time, individualDuration, roomList[currentRoom.index], "Group work")
                         plan = addReservationToPlan(individualRoom, plan)
