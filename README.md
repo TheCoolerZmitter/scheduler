@@ -6,4 +6,3 @@ Instructions for running the program:
 
 Known issues:
 1) Events must not exceed a duration of 99:59
-2) User Input must be formatted perfectly (including typing AM/PM for the start time and including a leading 0 for any single digit hour values)
