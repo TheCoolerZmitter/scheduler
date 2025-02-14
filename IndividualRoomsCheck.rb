@@ -4,6 +4,7 @@ require_relative 'SchedulingPlan'
 
 # Checks for rooms in the same building that can be used for individual/group work
 def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
+    # Stores if tests were passed and the updated schedule
     planBool = Struct.new(:pass, :newPlan)
 
     # Converts string data into usable values
