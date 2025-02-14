@@ -135,7 +135,7 @@ def convertToString(hour, minute, time)
     end
 
     if time
-        return leadingZeroHour + hour.to_s + ":" + leadingZeroMinute + minute.to_s + "AM"
+        return leadingZeroHour + hour.to_s + ":" + leadingZeroMinute + minute.to_s + " AM"
     else
         return leadingZeroHour + hour.to_s + ":" + leadingZeroMinute + minute.to_s
     end

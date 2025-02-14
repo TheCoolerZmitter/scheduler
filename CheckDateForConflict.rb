@@ -13,7 +13,7 @@ def checkDateForConflict(reservations, rooms, date, time, duration, roomsIndex)
     startHour = time[0,2].to_i
     startMinute = time[3,2].to_i
     # Add 12 hours to value if PM
-    if (time[5,1].casecmp("P") || time[6,1].casecmp("P"))
+    if time[6,2] == "PM"
         startHour += 12
     end
     durationHour = duration[0,2].to_i

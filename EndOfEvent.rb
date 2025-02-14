@@ -8,6 +8,7 @@ def endOfEvent(date, time, duration)
     if time[6,2] == "PM"
         startHour += 12
     end
+
     durationHours = duration[0,2].to_i
     durationMinutes = duration[3,2].to_i
 
@@ -31,7 +32,7 @@ def endOfEvent(date, time, duration)
     if lastHour % 24 < 12
         timeString = leadingZeroHour + (lastHour % 24).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " AM"
     else
-        timeString = leadingZeroHour + (lastHour % 24 - 12).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " AM"
+        timeString = leadingZeroHour + (lastHour % 24 - 12).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " PM"
     end
 
     # Checks if end time is on a different date
