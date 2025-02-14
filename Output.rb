@@ -62,7 +62,7 @@ def printToFile(finalSchedule)
     puts "Name of file (\"output.csv\"):"
     name = gets
 
-    CSV.open(name, "w") do |csv|
+    CSV.open(name.chomp, "w") do |csv|
         finalSchedule.each do |row|
             csv << row
         end
