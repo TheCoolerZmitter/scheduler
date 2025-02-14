@@ -6,6 +6,7 @@ def getUserConstraints()
     # Loops until input is valid
     validInput = false
     while !validInput
+        restartLoop = false
         puts "Enter date of event (yyyy-mm-dd): "
         newEvent.date = gets
 
@@ -17,8 +18,12 @@ def getUserConstraints()
             newEvent.date = newEvent.date[0,8] + "0" + newEvent.date[8,1]
         end
 
+        if newEvent.date[4,1] != "-" || newEvent.date[7,1] != "-"
+            restartLoop = true
+        end
+
         # Checks validity
-        if newEvent.date.to_i > 2020 && newEvent.date.to_i < 2030 && newEvent.date[5,5].to_i > 0 && newEvent.date[5,5].to_i < 13 && newEvent.date[8,2].to_i > 0 && newEvent.date[8,2].to_i < 32
+        if !restartLoop && newEvent.date.to_i > 2020 && newEvent.date.to_i < 2030 && newEvent.date[5,5].to_i > 0 && newEvent.date[5,5].to_i < 13 && newEvent.date[8,2].to_i > 0 && newEvent.date[8,2].to_i < 32
             validInput = true
         else
             puts "Invalid date. Year must be between 2020 and 2030."
@@ -52,6 +57,11 @@ def getUserConstraints()
             elsif newEvent.time[6,2] == "pm"
                 newEvent.time = newEvent.time[0,6] + "PM"
             end
+
+            if newEvent.time[6,2] != "AM" && newEvent.time[6,2] != "PM"
+                validInput = false
+                puts "Invalid time. Please enter time in AM/PM format."
+            end
         else
             puts "Invalid time. Please enter time in AM/PM format."
         end
@@ -59,6 +69,7 @@ def getUserConstraints()
 
     validInput = false
     while !validInput
+        restartLoop = false
         puts "Enter duration of event (hh:mm): "
         newEvent.duration = gets
 
@@ -67,8 +78,12 @@ def getUserConstraints()
             newEvent.duration = "0" + newEvent.duration
         end
 
+        if newEvent.duration[2,1] != ":"
+            restartLoop = true
+        end
+
         # Checks validity
-        if newEvent.duration.to_i >= 4 && newEvent.duration.to_i < 100 && newEvent.duration[3,2].to_i >= 0 && newEvent.duration[3,2].to_i < 60
+        if !restartLoop && newEvent.duration.to_i >= 4 && newEvent.duration.to_i < 100 && newEvent.duration[3,2].to_i >= 0 && newEvent.duration[3,2].to_i < 60
             validInput = true
         else
             puts "Invalid duration. Must have duration between 04:00 and 99:59."
