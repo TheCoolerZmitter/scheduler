@@ -3,33 +3,89 @@ def getUserConstraints()
     event = Struct.new(:date, :time, :duration, :attendees)
     newEvent = event.new()
 
-    puts "Enter date of event (yyyy-mm-dd): "
-    newEvent.date = gets
-    puts "Enter start time of event (hh:mm AM/PM): "
-    time = gets
-    # Change 12 to 00 for math purposes later down the line
-    if time[0,2] == "12"
-        time = "00" + time[2, 6]
+    # Loops until input is valid
+    validInput = false
+    while !validInput
+        puts "Enter date of event (yyyy-mm-dd): "
+        newEvent.date = gets
+        if newEvent.date.to_i > 2020 && newEvent.date.to_i < 2030 && newEvent.date[5,5].to_i > 0 && newEvent.date[5,5].to_i < 13 && newEvent.date[8,2].to_i > 0 && newEvent.date[8,2].to_i < 32
+            validInput = true
+        else
+            puts "Invalid date. Year must be between 2020 and 2030."
+        end
     end
-    newEvent.time = time
-    puts "Enter duration of event (hh:mm): "
+
+    validInput = false
+    while !validInput
+        puts "Enter start time of event (hh:mm AM/PM): "
+        time = gets
+        if time.to_i > 0 && time.to_i < 13 && time[3,2].to_i >= 0 && time[3,2].to_i < 60 && (time[6,1].casecmp("M") || time[7,1].casecmp("M"))
+            validInput = true
+            # Change 12 to 00 for later calculations
+            if time[0,2] == "12"
+                time = "00" + time[2, 6]
+            end
+            newEvent.time = time
+        else
+            puts "Invalid time. Please enter time in AM/PM format."
+        end
+    end
+
+    validInput = false
+    while !validInput
+        puts "Enter duration of event (hh:mm): "
     newEvent.duration = gets
-    puts "Enter number of attendees: "
-    newEvent.attendees = gets
+        if newEvent.duration.to_i >= 0 && newEvent.duration.to_i < 100 && newEvent.duration[3,2].to_i >= 0 && newEvent.duration[3,2].to_i < 60
+            validInput = true
+        else
+            puts "Invalid duration. Must last between 4 and 100 hours."
+        end
+    end
+
+    validInput = false
+    while !validInput
+        puts "Enter number of attendees: "
+        newEvent.attendees = gets
+        if newEvent.attendees.to_i > 0 && newEvent.attendees.to_i <= 1000
+            validInput = true
+        else
+            puts "Invalid value. Number of attendees must be between 1 and 1000."
+        end
+    end
 
     return newEvent
 end
 
 # Get filepath of room_list
 def getRoomListFilePath()
-    puts "Enter the name of room list file (ie. \"rooms_list.csv\"):"
-    path = gets
+    fileExists = false
+    while !fileExists
+        puts "Enter the name of room list file (ie. \"rooms_list.csv\"):"
+        path = gets
+
+        # Error handling
+        if File.exists?(path.chomp)
+            fileExists = true
+        else
+            puts "File not found"
+        end
+    end
     return path.chomp
 end
 
 # Get filepath of reserved_rooms
 def getReservationListFilePath()
-    puts "Enter the name of reserved rooms file (ie. \"reserved_rooms.csv\"):"
-    path = gets
+    fileExists = false
+    while !fileExists
+        puts "Enter the name of reserved rooms file (ie. \"reserved_rooms.csv\"):"
+        path = gets
+        
+        # Error handling
+        if File.exists?(path.chomp)
+            fileExists = true
+        else
+            puts "File not found"
+        end
+    end
     return path.chomp
 end
