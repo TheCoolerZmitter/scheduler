@@ -5,14 +5,19 @@ require_relative 'SchedulingPlan'
 # Checks for rooms in the same building that can be used for meals
 def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
     planBool = Struct.new(:pass, :newPlan)
+
+    # Number of meals is duration hours divided by 6
     numMeals = newEvent.duration.to_i / 6
 
+    # If there are no meals required, return test passes and the original scheduling plan
     if numMeals == 0 
         return planBool.new(true, plan)
     end
 
+    # Meal rooms need to hold 60% of attendees
     capacityNeeded = newEvent.attendees.to_i * 6 / 10
     
+    # Find linked list of rooms in the desired building
     building = roomList[desiredRoomIndex][0]
     keepSearching = true
     currentBuilding = buildings
@@ -24,6 +29,7 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, pl
         end
     end
 
+    # Check availability of rooms in the buildings during all meal times
     for i in 1..numMeals do
         currentTotalCapacity = 0
         numMealRooms = 0
@@ -46,6 +52,7 @@ def mealCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, pl
             currentRoom = currentRoom.next
         end
 
+        # If requirements were not met, return false
         if currentTotalCapacity < capacityNeeded || numMealRooms < 2
             return planBool.new(false, nil);
         end

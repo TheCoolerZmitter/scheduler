@@ -4,6 +4,7 @@ def binarySearch(rooms, attendees)
     left = 0
     right = rooms.length()-1
 
+    # Binary searches sorted table for room with desired capacity
     while rooms[index][2] != attendees
         if left == right
             return right
@@ -17,8 +18,11 @@ def binarySearch(rooms, attendees)
         index = (left + right) / 2
     end
 
+    # Picks room with lowest index if multiple rooms have the same capacity
     while rooms[index][2] == rooms[index - 1][2]
         index -= 1
     end
+
+    # Returns index of room
     return index
 end

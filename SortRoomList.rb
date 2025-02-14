@@ -21,6 +21,7 @@ def quicksort(rooms, left, right)
     rooms
 end
 
+# Partitioning section of quicksort algorithm
 def partition(rooms, left, right)
     pivotIndex = left
     pivotRow = rooms[right]

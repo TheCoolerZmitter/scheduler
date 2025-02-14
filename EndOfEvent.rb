@@ -2,6 +2,7 @@
 def endOfEvent(date, time, duration)
     range = Struct.new(:date, :time, :numDays)
 
+    # Turn string data into usable values
     startHour = time[0,2].to_i
     startMinutes = time[3,2].to_i
     if time[6,2] == "PM"
@@ -16,6 +17,7 @@ def endOfEvent(date, time, duration)
     lastMinute = lastMinute % 60
     numDays = lastHour/24
 
+    # Convert end time back to a string in proper format
     if lastHour % 12 < 10
         leadingZeroHour = "0"
     else
@@ -32,6 +34,7 @@ def endOfEvent(date, time, duration)
         timeString = leadingZeroHour + (lastHour % 24 - 12).to_s + ":" + leadingZeroMinute + lastMinute.to_s + " AM"
     end
 
+    # Checks if end time is on a different date
     if numDays == 0
         return range.new(date, timeString, 1)
     else
@@ -47,6 +50,7 @@ def findNewDay(date, timeString, numDays)
     month = date[5,2].to_i
     day = date[8,2].to_i
 
+    # Increases days, months, and years based on number of days in the month and if it is a leap year
     day += numDays
     while true
         if day > 31 && (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month || 12)
@@ -76,6 +80,8 @@ def findNewDay(date, timeString, numDays)
             else
                 leadingZeroMonth = ""
             end
+
+            # Returns end date, time, and number of days after date has been correctly calculated
             return range.new(year.to_s + "-" + leadingZeroMonth + month.to_s + "-" + leadingZeroDay + day.to_s, timeString, numDays + 1)
         end
     end

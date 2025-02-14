@@ -1,14 +1,16 @@
 require 'csv'
 
-# prints output to console
+# Print output to console
 def print(schedule)
     finalSchedule = Array.new(schedule.count + 1){Array.new(13)}
     
+    # First row headers
     finalSchedule[0] = [
         "Date", "Time", "Duration", "Building", "Room", "Capacity", "Computer Available",
         "Seating Available", "Seating Type", "Food Allowed", "Room Type", "Priority", "Purpose"
     ]
 
+    # Insert contents of final schedule list to 2D array
     currentReservation = schedule
     i = schedule.count
     while currentReservation
@@ -34,15 +36,18 @@ def print(schedule)
         i -= 1
     end
 
+    # Print array to console
     for i in 0..schedule.count do
         puts finalSchedule[i].join(", ")
     end
 
+    # Ask user if they want an output file
     if fileAsk()
         printToFile(finalSchedule)
     end
 end
 
+# Ask user if they want to create a file
 def fileAsk()
     puts "Print to file? Y/N:"
     print = gets
@@ -52,6 +57,7 @@ def fileAsk()
     return false
 end
 
+# Ask user for filename and creates file with scheduling plan
 def printToFile(finalSchedule)
     puts "Name of file (\"output.csv\"):"
     name = gets
@@ -65,6 +71,7 @@ def printToFile(finalSchedule)
     puts "File created successfully!"
 end
 
+# Print message if no schedules are possible given the constraints
 def printFail()
     puts "No possible scheduling plan available."
 end
