@@ -8,6 +8,7 @@ require_relative 'HackTCNJConstraints'
 require_relative 'Output'
 require_relative 'EndOfEvent'
 require_relative 'SchedulingPlan'
+require_relative 'MidnightOverlap'
 
 # Get first file path from user
 roomListPath = getRoomListFilePath()
@@ -40,13 +41,31 @@ end
 keepSearching = true
 success = true
 while keepSearching
+    # Checks if opening or closing session overlaps midnight (occuring on two dates)
+    overlap = midnightOverlap(newEvent, closingSession)
+
     # Check availability of desired room during opening and closing session
-    if checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, "01:00", desiredRoomIndex) && checkDateForConflict(reservedRooms, roomList, closingSession.date, closingSession.time, "03:00", desiredRoomIndex)
+    if ((!overlap.openingSessionMidnight && checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, "01:00", desiredRoomIndex)) || (overlap.openingSessionMidnight && checkDateForConflict(reservedRooms, roomList, newEvent.date, newEvent.time, overlap.openingDayOne, desiredRoomIndex))) && ((!overlap.closingSessionMidnight && checkDateForConflict(reservedRooms, roomList, overlap.openingDate, "00:00 AM", overlap.openingDayTwp, desiredRoomIndex)) || (overlap.closingSessionMidnight && checkDateForConflict(reservedRooms, roomList, closingSession.date, closingSession.time, overlap.closingDayOne, desiredRoomIndex) && checkDateForConflict(reservedRooms, roomList, overlap.closingDate, "00:00 AM", overlap.closingDayTwo, desiredRoomIndex)))
         # Create scheduling plan and add reservations for opening and closing sessions
-        openingReservation = createReservation(newEvent.date, newEvent.time, "01:00", roomList[desiredRoomIndex], "Opening session")
-        closingReservation = createReservation(closingSession.date, closingSession.time, "03:00", roomList[desiredRoomIndex], "Closing session")
-        finalPlan = createNewPlan(openingReservation)
-        finalPlan = addReservationToPlan(closingReservation, finalPlan)
+        if overlap.openingSessionMidnight
+            openingReservation = createReservation(newEvent.date, newEvent.time, overlap.openingDayOne, roomList[desiredRoomIndex], "Opening session")
+            openingReservationTwo = createReservation(overlap.openingDate, "12:00 AM", overlap.openingDayTwo, roomList[desiredRoomIndex], "Opening session")
+            finalPlan = createNewPlan(openingReservation)
+            finalPlan = addReservationToPlan(openingReservationTwo, finalPlan)
+        else
+            openingReservation = createReservation(newEvent.date, newEvent.time, "01:00", roomList[desiredRoomIndex], "Opening session")
+            finalPlan = createNewPlan(openingReservation)
+        end
+
+        if overlap.closingSessionMidnight
+            closingReservation = createReservation(closingSession.date, closingSession.time, overlap.closingDayOne, roomList[desiredRoomIndex], "Closing session")
+            closingReservationTwo = createReservation(overlap.closingDate, "12:00 AM", overlap.closingDayTwo, roomList[desiredRoomIndex], "Closing session")
+            finalPlan = addReservationToPlan(closingReservation, finalPlan)
+            finalPlan = addReservationToPlan(closingReservationTwo, finalPlan)
+        else
+            closingReservation = createReservation(closingSession.date, closingSession.time, "03:00", roomList[desiredRoomIndex], "Closing session")
+            finalPlan = addReservationToPlan(closingReservation, finalPlan)
+        end
         
         # Check the rest of HackTCNJ constraints
         finalPlanBool = checkOtherConstraints(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, finalPlan)
