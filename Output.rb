@@ -16,9 +16,9 @@ def print(schedule)
     while currentReservation
         finalSchedule[i][0] = currentReservation.reservation.date[0,10]
         if currentReservation.reservation.time[0,2] == "00"
-            finalSchedule[i][1] = "12" + currentReservation.reservation.time[2,6]
+            finalSchedule[i][1] = "12" + currentReservation.reservation.time[2,6].chomp
         else
-            finalSchedule[i][1] = currentReservation.reservation.time[0,8]
+            finalSchedule[i][1] = currentReservation.reservation.time[0,8].chomp
         end
         finalSchedule[i][2] = currentReservation.reservation.duration
         finalSchedule[i][3] = currentReservation.reservation.room[0]
