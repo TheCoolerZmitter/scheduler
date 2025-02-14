@@ -4,6 +4,17 @@ require_relative 'SchedulingPlan'
 
 # Checks for rooms in the same building that can be used for individual/group work
 def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, buildings, plan)
+    planBool = Struct.new(:pass, :newPlan)
+
+    # Converts string data into usable values
+    durationHours = newEvent.duration[0,2].to_i - 4
+    durationMinutes = newEvent.duration[3,2].to_i
+
+    # If there is no time for individual/group work, return true with the original schedule
+    if durationHours + durationMinutes == 0
+        return planBool.new(true, plan)
+    end
+
     # Assumes capacity needed is 2x the number of attendees
     capacityNeeded = newEvent.attendees.to_i * 2
     computersNeeded = newEvent.attendees.to_i / 10
@@ -14,8 +25,6 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
     if newEvent.time[6,2] == "PM"
         startHour += 12
     end
-    durationHours = newEvent.duration[0,2].to_i - 4
-    durationMinutes = newEvent.duration[3,2].to_i
 
     lastHour = startHour + durationHours
     lastMinute = startMinute + durationMinutes
@@ -34,9 +43,6 @@ def individualRoomsCheck(reservedRooms, roomList, newEvent, desiredRoomIndex, bu
             currentBuilding = currentBuilding.next
         end
     end
-
-    # Return type; says if this constraint has passed or failed and contains updated schedule
-    planBool = Struct.new(:pass, :newPlan)
 
     # Calculates how many hours the event lasts on the first and last day; used if event is multiple days
     firstDayDurationHours = 24 - startHour
