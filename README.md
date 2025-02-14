@@ -10,4 +10,4 @@ Known issues:
 
 
 Note:
-Although the previous commit adds comments to every file, every file already had comments before this change. This commit just added more of them.
+Although the final commit adds comments to every file, every file already had comments before this change. This commit just added more of them.
