@@ -1,7 +1,9 @@
 require_relative 'EndOfEvent'
 
-# Checks if opening or closing sessions overlap midnight
-def midnightOverlap(newEvent, closingSession)  
+# Check if opening or closing sessions overlap midnight
+def midnightOverlap(newEvent, closingSession) 
+    
+    # Check opening
     openingSessionMidnight = false
     openingDayOne = nil
     openingDayTwo = nil
@@ -24,6 +26,7 @@ def midnightOverlap(newEvent, closingSession)
         openingDate = endOfEvent(newEvent.date, newEvent.time, "01:00").date
     end
 
+    # Check closing session
     closingSessionMidnight = false
     closingDayOne = nil
     closingDayTwo = nil
